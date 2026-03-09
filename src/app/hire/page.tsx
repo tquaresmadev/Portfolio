@@ -3,6 +3,7 @@
 import { useActionState, useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { sendContactEmail } from "./actions";
+import { useTranslation } from "@/i18n/useTranslation";
 
 type State = { success?: boolean; error?: string } | null;
 
@@ -12,6 +13,8 @@ function formAction(_prev: State, formData: FormData) {
 
 /* ---------- Rocket / envelope sending animation ---------- */
 function SendingAnimation() {
+  const { t } = useTranslation();
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg/80 backdrop-blur-sm animate-hire-fade-in">
       <div className="flex flex-col items-center gap-6">
@@ -54,18 +57,12 @@ function SendingAnimation() {
 
           {/* Envelope with wings */}
           <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className="drop-shadow-[0_0_20px_rgba(99,102,241,0.5)]">
-            {/* Wing left */}
             <path d="M8 28 L2 20 L18 26Z" fill="#818cf8" opacity="0.8" />
-            {/* Wing right */}
             <path d="M56 28 L62 20 L46 26Z" fill="#818cf8" opacity="0.8" />
-            {/* Envelope body */}
             <rect x="12" y="20" width="40" height="28" rx="4" fill="#6366f1" />
-            {/* Envelope flap */}
             <path d="M12 20 L32 36 L52 20" stroke="#818cf8" strokeWidth="2" fill="#4f46e5" />
-            {/* Envelope lines */}
             <line x1="20" y1="32" x2="44" y2="32" stroke="#818cf8" strokeWidth="1.5" opacity="0.5" />
             <line x1="20" y1="37" x2="36" y2="37" stroke="#818cf8" strokeWidth="1.5" opacity="0.3" />
-            {/* Nose cone */}
             <path d="M26 20 L32 8 L38 20" fill="#4f46e5" />
           </svg>
         </div>
@@ -85,7 +82,7 @@ function SendingAnimation() {
         </div>
 
         <p className="text-sm font-medium text-fg-muted animate-pulse">
-          Launching your message...
+          {t("hire.launchingMessage")}
         </p>
       </div>
     </div>
@@ -94,16 +91,16 @@ function SendingAnimation() {
 
 /* ---------- Success screen ---------- */
 function SuccessScreen() {
+  const { t } = useTranslation();
   const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setShowConfetti(false), 4000);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setShowConfetti(false), 4000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-bg px-4 py-12">
-      {/* Confetti particles */}
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-50">
           {Array.from({ length: 40 }).map((_, i) => (
@@ -130,7 +127,6 @@ function SuccessScreen() {
       )}
 
       <div className="w-full max-w-lg text-center animate-hire-success-in">
-        {/* Animated checkmark circle */}
         <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 ring-2 ring-emerald-500/30 animate-hire-check-pop">
           <svg
             width="48"
@@ -148,16 +144,15 @@ function SuccessScreen() {
         </div>
 
         <h2 className="mb-2 text-3xl font-bold text-fg animate-hire-stagger-1">
-          Message delivered!
+          {t("hire.successTitle")}
         </h2>
         <p className="mb-2 text-fg-muted animate-hire-stagger-2">
-          Your message has landed safely in my inbox.
+          {t("hire.successMessage")}
         </p>
         <p className="mb-8 text-sm text-fg-muted/70 animate-hire-stagger-2">
-          I typically respond within 24 hours. Looking forward to connecting!
+          {t("hire.successFollowUp")}
         </p>
 
-        {/* Decorative divider */}
         <div className="mx-auto mb-8 flex items-center gap-3 animate-hire-stagger-3">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-border" />
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent">
@@ -176,13 +171,13 @@ function SuccessScreen() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
-            Back to portfolio
+            {t("hire.backToPortfolio")}
           </Link>
           <Link
             href="/hire"
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
           >
-            Send another message
+            {t("hire.sendAnother")}
           </Link>
         </div>
       </div>
@@ -192,23 +187,22 @@ function SuccessScreen() {
 
 /* ---------- Main page ---------- */
 export default function HirePage() {
+  const { t } = useTranslation();
   const [state, action, pending] = useActionState(formAction, null);
   const [showSending, setShowSending] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const prevPending = useRef(false);
 
-  // Track pending transitions to show rocket animation
   useEffect(() => {
     if (pending && !prevPending.current) {
       setShowSending(true);
     }
     if (!pending && prevPending.current) {
-      // Keep rocket for a beat, then transition
-      const t = setTimeout(() => {
+      const timer = setTimeout(() => {
         setShowSending(false);
         if (state?.success) setShowSuccess(true);
       }, 1500);
-      return () => clearTimeout(t);
+      return () => clearTimeout(timer);
     }
     prevPending.current = pending;
   }, [pending, state]);
@@ -230,14 +224,14 @@ export default function HirePage() {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
-          Back to portfolio
+          {t("hire.backToPortfolio")}
         </Link>
 
         <h1 className="mb-1 text-2xl font-bold text-fg animate-hire-stagger-1">
-          Get in touch
+          {t("hire.title")}
         </h1>
         <p className="mb-8 text-sm text-fg-muted animate-hire-stagger-2">
-          Have a project in mind? Fill out the form below and I&apos;ll get back to you.
+          {t("hire.subtitle")}
         </p>
 
         <form action={action} className="space-y-4">
@@ -249,30 +243,30 @@ export default function HirePage() {
 
           <div className="animate-hire-stagger-1">
             <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-fg">
-              Name
+              {t("hire.nameLabel")}
             </label>
-            <input id="name" name="name" type="text" required className={inputClass} placeholder="Your name" />
+            <input id="name" name="name" type="text" required className={inputClass} placeholder={t("hire.namePlaceholder")} />
           </div>
 
           <div className="animate-hire-stagger-2">
             <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-fg">
-              Email
+              {t("hire.emailLabel")}
             </label>
-            <input id="email" name="email" type="email" required className={inputClass} placeholder="you@example.com" />
+            <input id="email" name="email" type="email" required className={inputClass} placeholder={t("hire.emailPlaceholder")} />
           </div>
 
           <div className="animate-hire-stagger-3">
             <label htmlFor="subject" className="mb-1.5 block text-sm font-medium text-fg">
-              Subject
+              {t("hire.subjectLabel")}
             </label>
-            <input id="subject" name="subject" type="text" required className={inputClass} placeholder="Project inquiry" />
+            <input id="subject" name="subject" type="text" required className={inputClass} placeholder={t("hire.subjectPlaceholder")} />
           </div>
 
           <div className="animate-hire-stagger-4">
             <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-fg">
-              Message
+              {t("hire.messageLabel")}
             </label>
-            <textarea id="message" name="message" required rows={5} className={`${inputClass} resize-none`} placeholder="Tell me about your project..." />
+            <textarea id="message" name="message" required rows={5} className={`${inputClass} resize-none`} placeholder={t("hire.messagePlaceholder")} />
           </div>
 
           <div className="animate-hire-stagger-4">
@@ -284,10 +278,10 @@ export default function HirePage() {
               <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
               <span className="relative inline-flex items-center gap-2">
                 {pending ? (
-                  "Sending..."
+                  t("hire.sending")
                 ) : (
                   <>
-                    Send message
+                    {t("hire.sendButton")}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
                       <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
                     </svg>

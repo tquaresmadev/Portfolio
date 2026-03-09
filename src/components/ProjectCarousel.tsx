@@ -3,12 +3,14 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { projects } from "@/data/projects";
+import { useTranslation } from "@/i18n/useTranslation";
 
 function getIndex(i: number) {
   return ((i % projects.length) + projects.length) % projects.length;
 }
 
 export default function ProjectCarousel() {
+  const { t } = useTranslation();
   const [current, setCurrent] = useState(0);
   const [slideKey, setSlideKey] = useState(0);
   const [zoomed, setZoomed] = useState(false);
@@ -53,24 +55,24 @@ export default function ProjectCarousel() {
         {/* Left peek card */}
         <button
           onClick={prev}
-          className="group hidden w-48 shrink-0 cursor-pointer flex-col items-center gap-3 rounded-xl border border-transparent p-4 text-center opacity-40 transition-all hover:border-border hover:opacity-60 lg:flex"
+          className="group hidden w-48 shrink-0 cursor-pointer flex-col items-center gap-3 rounded-xl border border-transparent p-4 text-center opacity-50 transition-all hover:border-border hover:opacity-80 lg:flex"
         >
           <div
             className="flex h-12 w-12 items-center justify-center rounded-xl"
-            style={{ backgroundColor: prevProject.accentColor + "20" }}
+            style={{ backgroundColor: prevProject.accentColor + "30" }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={prevProject.accentColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d={prevProject.icon} />
             </svg>
           </div>
-          <span className="text-sm font-medium text-fg-muted">{prevProject.title}</span>
+          <span className="text-sm font-medium text-fg-muted">{t(`project.${prevProject.slug}.title`)}</span>
         </button>
 
         {/* Arrow left (mobile + tablet) */}
         <button
           onClick={prev}
           className="shrink-0 p-2 text-fg-muted transition hover:text-accent lg:hidden"
-          aria-label="Previous project"
+          aria-label={t("projects.prevProject")}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M15 18l-6-6 6-6" />
@@ -78,25 +80,37 @@ export default function ProjectCarousel() {
         </button>
 
         {/* Main card — fixed height */}
-        <div className="flex h-64 min-w-0 flex-1 overflow-hidden rounded-2xl border border-border">
+        <div className="flex h-64 min-w-0 flex-1 overflow-hidden rounded-2xl border border-border bg-bg-card">
           {/* Thumbnail / icon area */}
           <div
             className="relative hidden w-72 shrink-0 sm:block"
-            style={{ backgroundColor: project.accentColor + "08" }}
+            style={{ backgroundColor: project.accentColor + "12" }}
           >
             {project.thumbnail ? (
               <button
                 key={slideKey}
                 onClick={() => setZoomed(true)}
-                className="relative h-full w-full cursor-zoom-in animate-fade-in"
-                aria-label="Zoom image"
+                className="relative flex h-full w-full cursor-zoom-in flex-col animate-fade-in"
+                aria-label={t("projects.zoomImage")}
               >
-                <Image
-                  src={project.thumbnail}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                />
+                {/* Mini browser chrome */}
+                <div className="flex h-6 shrink-0 items-center gap-1.5 border-b border-border/40 bg-bg-subtle/80 px-2.5">
+                  <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
+                  <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
+                  <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+                  <span className="ml-2 flex-1 rounded-sm bg-border/40 px-2 py-0.5 text-[8px] text-fg-muted/40 text-left truncate">
+                    {project.liveUrl || project.sourceUrl || `${project.slug}.dev`}
+                  </span>
+                </div>
+                {/* Scaled page preview */}
+                <div className="relative flex-1 overflow-hidden">
+                  <Image
+                    src={project.thumbnail}
+                    alt={project.title}
+                    fill
+                    className="object-cover object-top"
+                  />
+                </div>
               </button>
             ) : (
               <div className="flex h-full flex-col items-center justify-center gap-3">
@@ -112,7 +126,7 @@ export default function ProjectCarousel() {
                   className="text-xs font-medium tracking-wide"
                   style={{ color: project.accentColor + "80" }}
                 >
-                  No preview yet
+                  {t("projects.noPreview")}
                 </span>
               </div>
             )}
@@ -137,7 +151,7 @@ export default function ProjectCarousel() {
                   </svg>
                 </div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-semibold text-fg">{project.title}</h3>
+                  <h3 className="text-lg font-semibold text-fg">{t(`project.${project.slug}.title`)}</h3>
                   {project.category && (
                     <span
                       className="rounded-full px-2 py-0.5 text-[11px] font-medium"
@@ -146,14 +160,14 @@ export default function ProjectCarousel() {
                         color: project.accentColor,
                       }}
                     >
-                      {project.category}
+                      {t(`project.${project.slug}.category`)}
                     </span>
                   )}
                 </div>
               </div>
 
               <p className="line-clamp-2 text-sm leading-relaxed text-fg-muted animate-slide-up" style={{ animationDelay: "120ms" }}>
-                {project.description}
+                {t(`project.${project.slug}.description`)}
               </p>
 
               <div className="flex flex-wrap gap-1.5 animate-slide-up" style={{ animationDelay: "190ms" }}>
@@ -179,7 +193,7 @@ export default function ProjectCarousel() {
                     className="rounded-lg px-4 py-1.5 text-sm font-medium text-white transition hover:opacity-90"
                     style={{ backgroundColor: project.accentColor }}
                   >
-                    Live Demo
+                    {t("projects.liveDemo")}
                   </a>
                 )}
                 {project.sourceUrl && (
@@ -189,7 +203,7 @@ export default function ProjectCarousel() {
                     rel="noopener noreferrer"
                     className="rounded-lg border border-border px-4 py-1.5 text-sm font-medium text-fg transition hover:text-accent"
                   >
-                    Source Code
+                    {t("projects.sourceCode")}
                   </a>
                 )}
               </div>
@@ -204,7 +218,7 @@ export default function ProjectCarousel() {
         <button
           onClick={next}
           className="shrink-0 p-2 text-fg-muted transition hover:text-accent lg:hidden"
-          aria-label="Next project"
+          aria-label={t("projects.nextProject")}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 6l6 6-6 6" />
@@ -214,17 +228,17 @@ export default function ProjectCarousel() {
         {/* Right peek card */}
         <button
           onClick={next}
-          className="group hidden w-48 shrink-0 cursor-pointer flex-col items-center gap-3 rounded-xl border border-transparent p-4 text-center opacity-40 transition-all hover:border-border hover:opacity-60 lg:flex"
+          className="group hidden w-48 shrink-0 cursor-pointer flex-col items-center gap-3 rounded-xl border border-transparent p-4 text-center opacity-50 transition-all hover:border-border hover:opacity-80 lg:flex"
         >
           <div
             className="flex h-12 w-12 items-center justify-center rounded-xl"
-            style={{ backgroundColor: nextProject.accentColor + "20" }}
+            style={{ backgroundColor: nextProject.accentColor + "30" }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={nextProject.accentColor} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d={nextProject.icon} />
             </svg>
           </div>
-          <span className="text-sm font-medium text-fg-muted">{nextProject.title}</span>
+          <span className="text-sm font-medium text-fg-muted">{t(`project.${nextProject.slug}.title`)}</span>
         </button>
       </div>
 
@@ -237,7 +251,7 @@ export default function ProjectCarousel() {
             className={`h-1.5 w-1.5 rounded-full transition-colors ${
               i === current ? "bg-accent" : "bg-border"
             }`}
-            aria-label={`Go to project ${i + 1}`}
+            aria-label={t("projects.goToProject", { n: i + 1 })}
           />
         ))}
       </div>
@@ -254,7 +268,7 @@ export default function ProjectCarousel() {
           <button
             onClick={closeLightbox}
             className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
-            aria-label="Close zoom"
+            aria-label={t("projects.closeZoom")}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6L6 18M6 6l12 12" />
@@ -263,7 +277,7 @@ export default function ProjectCarousel() {
 
           {/* Project title */}
           <div key={slideKey} className="absolute top-4 left-1/2 -translate-x-1/2 text-sm font-medium text-white/70 animate-slide-up">
-            {project.title}
+            {t(`project.${project.slug}.title`)}
             <span className="ml-2 text-white/40">
               {String(current + 1).padStart(2, "0")}/{String(projects.length).padStart(2, "0")}
             </span>
@@ -273,7 +287,7 @@ export default function ProjectCarousel() {
           <button
             onClick={(e) => { e.stopPropagation(); prev(); }}
             className="absolute left-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
-            aria-label="Previous project"
+            aria-label={t("projects.prevProject")}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M15 18l-6-6 6-6" />
@@ -301,7 +315,7 @@ export default function ProjectCarousel() {
           <button
             onClick={(e) => { e.stopPropagation(); next(); }}
             className="absolute right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
-            aria-label="Next project"
+            aria-label={t("projects.nextProject")}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 6l6 6-6 6" />

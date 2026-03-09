@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { skillCategories } from "@/data/skills";
+import { useTranslation } from "@/i18n/useTranslation";
 import CodeBackground from "./CodeBackground";
 
 export default function SkillsBar() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative overflow-hidden">
       <CodeBackground />
@@ -28,7 +33,7 @@ export default function SkillsBar() {
             </h1>
             <div className="flex items-center gap-2">
               <p className="text-sm text-fg-muted">
-                Software Developer &middot; Portugal
+                {t("skills.subtitle")}
               </p>
               <a
                 href="https://github.com/j1mp-dev"
@@ -58,16 +63,16 @@ export default function SkillsBar() {
                 style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b)" }}
               >
                 <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                <span className="relative">Hire Me</span>
+                <span className="relative">{t("skills.hireMe")}</span>
               </Link>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {skillCategories.map((cat) => (
-              <div key={cat.label} className="flex items-center gap-2">
+              <div key={cat.translationKey} className="flex items-center gap-2">
                 <span className="text-[10px] font-semibold uppercase tracking-widest text-fg-muted/60">
-                  {cat.label}
+                  {t(cat.translationKey)}
                 </span>
                 <div className="flex gap-1.5">
                   {cat.skills.map((skill) => (

@@ -5,12 +5,14 @@ export interface Skill {
 
 export interface SkillCategory {
   label: string;
+  translationKey: string;
   skills: Skill[];
 }
 
 export const skillCategories: SkillCategory[] = [
   {
     label: "Languages",
+    translationKey: "skills.cat.languages",
     skills: [
       { name: "Java", color: "#E76F00" },
       { name: "JavaScript", color: "#F7DF1E" },
@@ -20,6 +22,7 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     label: "Frameworks & Tools",
+    translationKey: "skills.cat.frameworksTools",
     skills: [{ name: "Spring Boot", color: "#6DB33F" }],
   },
 ];

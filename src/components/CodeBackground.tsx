@@ -29,7 +29,14 @@ export default function CodeBackground() {
     if (!ctx) return;
 
     let animationId: number;
+    let accentColor = "#6366f1";
     const particles: Particle[] = [];
+
+    const observer = new MutationObserver(() => {
+      accentColor = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#6366f1";
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    accentColor = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#6366f1";
 
     function resize() {
       if (!canvas) return;
@@ -82,7 +89,7 @@ export default function CodeBackground() {
         }
 
         ctx.globalAlpha = p.opacity;
-        ctx.fillStyle = "#6366f1";
+        ctx.fillStyle = accentColor;
         ctx.font = `400 ${p.size}px var(--font-geist-mono), monospace`;
         ctx.fillText(p.symbol, p.x, p.y);
       }
@@ -98,6 +105,7 @@ export default function CodeBackground() {
     return () => {
       window.removeEventListener("resize", init);
       cancelAnimationFrame(animationId);
+      observer.disconnect();
     };
   }, []);
 
