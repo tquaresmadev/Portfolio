@@ -41,6 +41,10 @@ html {
   scroll-behavior: smooth;
 }
 
+button, a, [role="button"] {
+  cursor: pointer;
+}
+
 html, body {
   height: 100%;
   background: var(--bg);
