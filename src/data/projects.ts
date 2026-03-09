@@ -15,6 +15,7 @@ export const projects: Project[] = [
   {
     slug: "my-portfolio",
     title: "My Portfolio",
+    thumbnail: "/projects/my-portfolio.jpg",
     description:
       "Personal developer portfolio built with Next.js, React, and Tailwind CSS.",
     tags: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
@@ -26,6 +27,7 @@ export const projects: Project[] = [
   {
     slug: "task-manager",
     title: "Task Manager",
+    thumbnail: "/projects/task-manager.jpg",
     description:
       "Full-stack task management app with drag-and-drop boards, real-time updates, and team collaboration.",
     tags: ["Spring Boot", "Java", "PostgreSQL", "React"],
@@ -36,6 +38,7 @@ export const projects: Project[] = [
   {
     slug: "weather-dashboard",
     title: "Weather Dashboard",
+    thumbnail: "/projects/weather-dashboard.jpg",
     description:
       "Real-time weather dashboard with interactive maps, forecasts, and location-based alerts.",
     tags: ["JavaScript", "REST API", "Chart.js", "CSS"],
@@ -47,6 +50,7 @@ export const projects: Project[] = [
   {
     slug: "ecommerce-api",
     title: "E-Commerce API",
+    thumbnail: "/projects/ecommerce-api.jpg",
     description:
       "RESTful API for an e-commerce platform with authentication, payments, and inventory management.",
     tags: ["Spring Boot", "Java", "MySQL", "Docker"],
@@ -58,6 +62,7 @@ export const projects: Project[] = [
   {
     slug: "chat-app",
     title: "Real-Time Chat",
+    thumbnail: "/projects/chat-app.jpg",
     description:
       "WebSocket-based chat application with rooms, typing indicators, and message history.",
     tags: ["Node.js", "WebSocket", "React", "MongoDB"],

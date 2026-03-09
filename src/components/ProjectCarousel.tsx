@@ -10,19 +10,31 @@ function getIndex(i: number) {
 
 export default function ProjectCarousel() {
   const [current, setCurrent] = useState(0);
+  const [slideKey, setSlideKey] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
+  const [closing, setClosing] = useState(false);
   const touchX = useRef(0);
 
-  const prev = useCallback(() => setCurrent((i) => getIndex(i - 1)), []);
-  const next = useCallback(() => setCurrent((i) => getIndex(i + 1)), []);
+  const closeLightbox = useCallback(() => {
+    setClosing(true);
+    setTimeout(() => {
+      setZoomed(false);
+      setClosing(false);
+    }, 350);
+  }, []);
+
+  const prev = useCallback(() => { setCurrent((i) => getIndex(i - 1)); setSlideKey((k) => k + 1); }, []);
+  const next = useCallback(() => { setCurrent((i) => getIndex(i + 1)); setSlideKey((k) => k + 1); }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
+      if (e.key === "Escape" && zoomed) closeLightbox();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [prev, next]);
+  }, [prev, next, zoomed, closeLightbox]);
 
   const prevProject = projects[getIndex(current - 1)];
   const project = projects[current];
@@ -73,12 +85,19 @@ export default function ProjectCarousel() {
             style={{ backgroundColor: project.accentColor + "08" }}
           >
             {project.thumbnail ? (
-              <Image
-                src={project.thumbnail}
-                alt={project.title}
-                fill
-                className="object-cover"
-              />
+              <button
+                key={slideKey}
+                onClick={() => setZoomed(true)}
+                className="relative h-full w-full cursor-zoom-in animate-fade-in"
+                aria-label="Zoom image"
+              >
+                <Image
+                  src={project.thumbnail}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                />
+              </button>
             ) : (
               <div className="flex h-full flex-col items-center justify-center gap-3">
                 <div
@@ -105,9 +124,9 @@ export default function ProjectCarousel() {
           </div>
 
           {/* Content */}
-          <div className="flex min-w-0 flex-1 flex-col justify-between p-5">
+          <div key={slideKey} className="flex min-w-0 flex-1 flex-col justify-between p-5">
             <div className="space-y-3">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 animate-slide-up" style={{ animationDelay: "50ms" }}>
                 {/* Mobile icon */}
                 <div
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg sm:hidden"
@@ -133,11 +152,11 @@ export default function ProjectCarousel() {
                 </div>
               </div>
 
-              <p className="line-clamp-2 text-sm leading-relaxed text-fg-muted">
+              <p className="line-clamp-2 text-sm leading-relaxed text-fg-muted animate-slide-up" style={{ animationDelay: "120ms" }}>
                 {project.description}
               </p>
 
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1.5 animate-slide-up" style={{ animationDelay: "190ms" }}>
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
@@ -150,7 +169,7 @@ export default function ProjectCarousel() {
             </div>
 
             {/* Links */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between animate-slide-up" style={{ animationDelay: "260ms" }}>
               <div className="flex gap-3">
                 {project.liveUrl && (
                   <a
@@ -222,6 +241,74 @@ export default function ProjectCarousel() {
           />
         ))}
       </div>
+
+      {/* Lightbox */}
+      {zoomed && project.thumbnail && (
+        <div
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm ${
+            closing ? "animate-backdrop-out" : "animate-backdrop-in"
+          }`}
+          onClick={closeLightbox}
+        >
+          {/* Close button */}
+          <button
+            onClick={closeLightbox}
+            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+            aria-label="Close zoom"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Project title */}
+          <div key={slideKey} className="absolute top-4 left-1/2 -translate-x-1/2 text-sm font-medium text-white/70 animate-slide-up">
+            {project.title}
+            <span className="ml-2 text-white/40">
+              {String(current + 1).padStart(2, "0")}/{String(projects.length).padStart(2, "0")}
+            </span>
+          </div>
+
+          {/* Left arrow */}
+          <button
+            onClick={(e) => { e.stopPropagation(); prev(); }}
+            className="absolute left-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+            aria-label="Previous project"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+
+          {/* Image */}
+          <div
+            className={`relative h-[80vh] w-[70vw] max-w-5xl ${
+              closing ? "animate-lightbox-out" : "animate-lightbox-in"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div key={slideKey} className="relative h-full w-full animate-slide-in">
+              <Image
+                src={project.thumbnail}
+                alt={project.title}
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+
+          {/* Right arrow */}
+          <button
+            onClick={(e) => { e.stopPropagation(); next(); }}
+            className="absolute right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+            aria-label="Next project"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </button>
+        </div>
+      )}
     </section>
   );
 }
