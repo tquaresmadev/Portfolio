@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { skillCategories } from "@/data/skills";
@@ -8,9 +9,10 @@ import CodeBackground from "./CodeBackground";
 
 export default function SkillsBar() {
   const { t } = useTranslation();
+  const [openCat, setOpenCat] = useState<string | null>(null);
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative z-20 overflow-visible">
       <CodeBackground />
 
       <div className="relative mx-auto flex max-w-5xl items-center gap-8 px-8 py-8">
@@ -68,28 +70,49 @@ export default function SkillsBar() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            {skillCategories.map((cat) => (
-              <div key={cat.translationKey} className="flex items-center gap-2">
-                <span className="text-[10px] font-semibold uppercase tracking-widest text-fg-muted/60">
+          <div className="relative flex flex-wrap items-center gap-x-3 gap-y-2">
+            {skillCategories.map((cat) => {
+              const isOpen = openCat === cat.translationKey;
+              return (
+                <button
+                  key={cat.translationKey}
+                  onClick={() => setOpenCat(isOpen ? null : cat.translationKey)}
+                  className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest backdrop-blur-sm transition-all cursor-pointer ${isOpen ? "border-accent/40 text-fg bg-accent-soft" : "border-border/60 text-fg-muted/60 bg-bg/80 hover:border-accent/40 hover:text-fg"}`}
+                >
                   {t(cat.translationKey)}
-                </span>
-                <div className="flex gap-1.5">
-                  {cat.skills.map((skill) => (
-                    <span
-                      key={skill.name}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-bg/80 px-2.5 py-1 text-xs text-fg-muted backdrop-blur-sm transition-colors hover:border-accent/40 hover:text-fg"
-                    >
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                  >
+                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" />
+                  </svg>
+                </button>
+              );
+            })}
+
+            {openCat && (
+              <div className="absolute left-0 top-full z-20 mt-2 animate-fade-in rounded-lg border border-border/60 bg-bg-card/90 px-4 py-3 shadow-lg backdrop-blur-sm">
+                <div className="flex flex-wrap gap-2">
+                  {skillCategories
+                    .find((c) => c.translationKey === openCat)
+                    ?.skills.map((skill) => (
                       <span
-                        className="h-1.5 w-1.5 rounded-full"
-                        style={{ backgroundColor: skill.color }}
-                      />
-                      {skill.name}
-                    </span>
-                  ))}
+                        key={skill.name}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-bg/80 px-2.5 py-1 text-xs text-fg-muted backdrop-blur-sm transition-colors hover:border-accent/40 hover:text-fg"
+                      >
+                        <span
+                          className="h-1.5 w-1.5 rounded-full"
+                          style={{ backgroundColor: skill.color }}
+                        />
+                        {skill.name}
+                      </span>
+                    ))}
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>

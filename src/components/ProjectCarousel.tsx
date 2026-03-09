@@ -51,7 +51,7 @@ export default function ProjectCarousel() {
         if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
       }}
     >
-      <div className="flex w-full max-w-6xl items-center gap-3">
+      <div className="flex w-full max-w-7xl items-center gap-3">
         {/* Left peek card */}
         <button
           onClick={prev}
@@ -80,10 +80,10 @@ export default function ProjectCarousel() {
         </button>
 
         {/* Main card — fixed height */}
-        <div className="flex h-64 min-w-0 flex-1 overflow-hidden rounded-2xl border border-border bg-bg-card">
+        <div className="flex h-80 min-w-0 flex-1 overflow-hidden rounded-2xl border border-border bg-bg-card">
           {/* Thumbnail / icon area */}
           <div
-            className="relative hidden w-72 shrink-0 sm:block"
+            className="relative hidden w-80 shrink-0 sm:block"
             style={{ backgroundColor: project.accentColor + "12" }}
           >
             {project.thumbnail ? (
@@ -108,7 +108,7 @@ export default function ProjectCarousel() {
                     src={project.thumbnail}
                     alt={project.title}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover object-left-top"
                   />
                 </div>
               </button>

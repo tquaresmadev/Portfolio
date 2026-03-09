@@ -15,7 +15,7 @@ export const projects: Project[] = [
   {
     slug: "my-portfolio",
     title: "My Portfolio",
-    thumbnail: "/projects/my-portfolio.jpg",
+    thumbnail: "/projects/my-portfolio.png",
     description:
       "Personal developer portfolio built with Next.js, React, and Tailwind CSS.",
     tags: ["Next.js", "React", "TypeScript", "Tailwind CSS"],

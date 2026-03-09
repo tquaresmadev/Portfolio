@@ -1,68 +1,5 @@
 @import "tailwindcss";
 
-@layer utilities {
-  .animate-lightbox-in {
-    animation: lightbox-in 400ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
-  .animate-lightbox-out {
-    animation: lightbox-out 350ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
-  .animate-backdrop-in {
-    animation: backdrop-in 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
-  .animate-backdrop-out {
-    animation: backdrop-out 350ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
-}
-
-@keyframes lightbox-in {
-  0% { transform: scale(0.4); opacity: 0; }
-  60% { transform: scale(1.03); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-@keyframes lightbox-out {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(0.4); opacity: 0; }
-}
-
-@keyframes backdrop-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes backdrop-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-@keyframes slide-in {
-  from { opacity: 0; transform: translateX(30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@layer utilities {
-  .animate-slide-in {
-    animation: slide-in 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  .animate-slide-up {
-    animation: slide-up 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  .animate-fade-in {
-    animation: fade-in 350ms ease both;
-  }
-}
-
 :root {
   --bg: #0a0a0f;
   --bg-card: #12121a;
@@ -96,6 +33,133 @@
   --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* ---- Base ---- */
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ---- Animations ---- */
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lightbox-in {
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes lightbox-out {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.4); opacity: 0; }
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes backdrop-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fade-in-up 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  .animate-float-delayed {
+    animation: float-delayed 5s ease-in-out infinite;
+    animation-delay: 1.5s;
+  }
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  .animate-fade-in {
+    animation: fade-in 350ms ease both;
+  }
+  .animate-slide-in {
+    animation: slide-in 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-slide-up {
+    animation: slide-up 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-lightbox-in {
+    animation: lightbox-in 400ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  .animate-lightbox-out {
+    animation: lightbox-out 350ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .animate-backdrop-in {
+    animation: backdrop-in 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .animate-backdrop-out {
+    animation: backdrop-out 350ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
 }
 
 /* ---- Hire page animations ---- */
@@ -218,11 +282,4 @@
     animation: hire-page-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
     animation-delay: 400ms;
   }
-}
-
-html, body {
-  height: 100%;
-  overflow: hidden;
-  background: var(--bg);
-  color: var(--fg);
 }

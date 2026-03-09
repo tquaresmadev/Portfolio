@@ -8,6 +8,7 @@ export default function ThemeToggle() {
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved === "light") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing with localStorage on mount
       setDark(false);
       document.documentElement.classList.add("light");
     }
@@ -31,7 +32,6 @@ export default function ThemeToggle() {
       className="relative flex h-7 w-12 items-center rounded-full border border-border bg-bg-card/90 backdrop-blur-sm transition-colors hover:border-accent/40"
       aria-label="Toggle theme"
     >
-      {/* Track icons */}
       <svg
         width="12"
         height="12"
@@ -59,7 +59,6 @@ export default function ThemeToggle() {
       >
         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
       </svg>
-      {/* Sliding knob */}
       <span
         className="absolute h-5 w-5 rounded-full shadow-sm transition-all duration-300"
         style={{

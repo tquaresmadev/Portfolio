@@ -1,9 +1,24 @@
 {
-  "skills.subtitle": "Software Developer \u00b7 Portugal",
+  "nav.about": "About",
+  "nav.skills": "Skills",
+  "nav.projects": "Projects",
+  "nav.contact": "Contact",
+
+  "hero.greeting": "Hello, I'm",
+  "hero.role": "Software Developer",
+  "hero.bio": "I build modern web applications with clean code and great user experiences. Based in Portugal, passionate about Java, React, and everything in between.",
+  "hero.hireCta": "Hire Me",
+  "hero.viewProjects": "View Projects",
+
+  "skills.title": "Skills & Technologies",
+  "skills.description": "Technologies I work with on a daily basis.",
+  "skills.subtitle": "Software Developer · Portugal",
   "skills.hireMe": "Hire Me",
   "skills.cat.languages": "Languages",
   "skills.cat.frameworksTools": "Frameworks & Tools",
 
+  "projects.title": "Projects",
+  "projects.description": "A selection of projects I've built.",
   "projects.liveDemo": "Live Demo",
   "projects.sourceCode": "Source Code",
   "projects.noPreview": "No preview yet",
@@ -28,6 +43,16 @@
   "project.chat-app.title": "Real-Time Chat",
   "project.chat-app.description": "WebSocket-based chat application with rooms, typing indicators, and message history.",
   "project.chat-app.category": "Full Stack",
+
+  "contact.title": "Get in Touch",
+  "contact.description": "Have a project in mind? Let's work together.",
+  "contact.infoTitle": "Contact Info",
+  "contact.emailLabel": "Email",
+  "contact.locationLabel": "Location",
+  "contact.followMe": "Follow me",
+  "contact.errorMessage": "Something went wrong. Please try again.",
+
+  "footer.copyright": "© 2026 Tiago Quaresma. All rights reserved.",
 
   "hire.backToPortfolio": "Back to portfolio",
   "hire.title": "Get in touch",
