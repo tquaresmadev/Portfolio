@@ -31,14 +31,24 @@ export default function SkillsSection() {
               }`}
               style={{ transitionDelay: inView ? `${i * 80}ms` : "0ms" }}
             >
-              <div
-                className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110"
-                style={{ backgroundColor: skill.color + "18" }}
-              >
-                <div className="h-3 w-3 rounded-full" style={{ backgroundColor: skill.color }} />
-              </div>
               <h3 className="text-sm font-semibold text-fg">{skill.name}</h3>
               <p className="mt-1 text-xs text-fg-muted">{t(skill.category)}</p>
+
+              <div className="mt-3 flex gap-1">
+                {Array.from({ length: 5 }).map((_, j) => (
+                  <div
+                    key={j}
+                    className="h-1.5 flex-1 rounded-full transition-all duration-700"
+                    style={{
+                      backgroundColor: j < skill.level ? skill.color : "var(--border)",
+                      opacity: j < skill.level ? 0.8 : 0.3,
+                      transitionDelay: inView ? `${i * 80 + j * 60}ms` : "0ms",
+                      transform: inView && j < skill.level ? "scaleX(1)" : j < skill.level ? "scaleX(0)" : "scaleX(1)",
+                      transformOrigin: "left",
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           ))}
         </div>
