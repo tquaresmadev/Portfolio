@@ -28,18 +28,23 @@ export default function SkillsSection() {
           <p className="text-fg-muted">{t("skills.description")}</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 min-[400px]:grid-cols-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
           {skills.map((skill, i) => (
             <div
               key={skill.name}
-              className={`group rounded-xl border border-border/60 bg-bg-card/50 p-5 backdrop-blur-sm transition-[border-color,background-color,box-shadow,transform] duration-300 hover:border-accent/40 hover:bg-bg-card/80 hover:shadow-lg hover:shadow-accent/5 hover:-translate-y-1 ${
+              className={`group rounded-xl border border-border/60 bg-bg-card/50 p-4 backdrop-blur-sm transition-[border-color,background-color,box-shadow,transform] duration-300 hover:border-accent/40 hover:bg-bg-card/80 hover:shadow-lg hover:shadow-accent/5 hover:-translate-y-1 sm:p-5 ${
                 inView ? "animate-fade-in-up" : "opacity-0"
               }`}
-              style={{ animationDelay: inView ? `${i * 80}ms` : undefined, animationFillMode: "both" }}
+              style={{
+                animationDelay: inView ? `${i * 80}ms` : undefined,
+                animationFillMode: "both",
+                borderLeftColor: (tagColors[skill.tag] || "#888") + "60",
+                borderLeftWidth: "3px",
+              }}
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <h3 className="text-sm font-semibold text-fg">{skill.name}</h3>
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <h3 className="truncate text-sm font-semibold text-fg">{skill.name}</h3>
                   {skill.certification && (
                     <div className="relative">
                       <button
@@ -68,7 +73,7 @@ export default function SkillsSection() {
                   )}
                 </div>
                 <span
-                  className="rounded-md border px-2 py-0.5 text-[10px] font-medium"
+                  className="shrink-0 rounded-md border px-2 py-0.5 text-[10px] font-medium"
                   style={{
                     borderColor: (tagColors[skill.tag] || "#888") + "40",
                     color: tagColors[skill.tag] || "#888",
