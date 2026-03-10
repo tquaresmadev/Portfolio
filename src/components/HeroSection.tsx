@@ -13,22 +13,21 @@ export default function HeroSection() {
 
   useEffect(() => {
     let i = 0;
-    let lastTime = 0;
-    let rafId: number;
-    const step = (time: number) => {
-      if (time - lastTime >= 80) {
-        lastTime = time;
-        if (i <= fullName.length) {
-          setDisplayedName(fullName.slice(0, i));
-          i++;
-        }
-      }
-      if (i <= fullName.length) {
-        rafId = requestAnimationFrame(step);
+    let timeout: ReturnType<typeof setTimeout>;
+    const step = () => {
+      i++;
+      setDisplayedName(fullName.slice(0, i));
+      if (i < fullName.length) {
+        timeout = setTimeout(step, 80);
       }
     };
-    rafId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafId);
+    timeout = setTimeout(step, 80);
+    // Fallback: guarantee full name shows after 2s no matter what
+    const fallback = setTimeout(() => setDisplayedName(fullName), 2000);
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(fallback);
+    };
   }, []);
 
   useEffect(() => {

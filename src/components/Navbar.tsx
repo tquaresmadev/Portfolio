@@ -117,7 +117,7 @@ export default function Navbar() {
         style={{ paddingTop: scrolled ? "0.75rem" : "1rem", paddingBottom: scrolled ? "0.75rem" : "1rem" }}
       >
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold tracking-tight text-fg">
+        <Link href="/" className="text-xl font-bold tracking-tight text-fg" translate="no">
           TQ<span className="text-accent">.</span>
         </Link>
 
