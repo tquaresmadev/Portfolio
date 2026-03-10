@@ -19,7 +19,7 @@ export default function ProjectsGrid() {
           <p className="text-fg-muted">{t("projects.description")}</p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2">
           {projects.map((project, i) => (
             <div
               key={project.slug}
@@ -29,12 +29,13 @@ export default function ProjectsGrid() {
               style={{ transitionDelay: inView ? `${i * 100}ms` : "0ms" }}
             >
               {/* Thumbnail */}
-              <div className="relative h-48 overflow-hidden" style={{ backgroundColor: project.accentColor + "10" }}>
+              <div className="relative h-56 overflow-hidden" style={{ backgroundColor: project.accentColor + "10" }}>
                 {project.thumbnail ? (
                   <Image
                     src={project.thumbnail}
                     alt={t(`project.${project.slug}.title`)}
                     fill
+                    unoptimized
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (

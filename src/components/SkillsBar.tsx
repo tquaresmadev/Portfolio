@@ -3,13 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { skillCategories } from "@/data/skills";
+import { skills } from "@/data/skills";
 import { useTranslation } from "@/i18n/useTranslation";
 import CodeBackground from "./CodeBackground";
 
 export default function SkillsBar() {
   const { t } = useTranslation();
-  const [openCat, setOpenCat] = useState<string | null>(null);
+  const [openTag, setOpenTag] = useState<string | null>(null);
+  const tags = [...new Set(skills.map((s) => s.tag))];
 
   return (
     <section className="relative z-20 overflow-visible">
@@ -38,7 +39,7 @@ export default function SkillsBar() {
                 {t("skills.subtitle")}
               </p>
               <a
-                href="https://github.com/j1mp-dev"
+                href="https://github.com/tquaresmadev"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-fg-muted transition-colors hover:text-fg"
@@ -71,15 +72,15 @@ export default function SkillsBar() {
           </div>
 
           <div className="relative flex flex-wrap items-center gap-x-3 gap-y-2">
-            {skillCategories.map((cat) => {
-              const isOpen = openCat === cat.translationKey;
+            {tags.map((tag) => {
+              const isOpen = openTag === tag;
               return (
                 <button
-                  key={cat.translationKey}
-                  onClick={() => setOpenCat(isOpen ? null : cat.translationKey)}
+                  key={tag}
+                  onClick={() => setOpenTag(isOpen ? null : tag)}
                   className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest backdrop-blur-sm transition-all cursor-pointer ${isOpen ? "border-accent/40 text-fg bg-accent-soft" : "border-border/60 text-fg-muted/60 bg-bg/80 hover:border-accent/40 hover:text-fg"}`}
                 >
-                  {t(cat.translationKey)}
+                  {tag}
                   <svg
                     width="10"
                     height="10"
@@ -93,12 +94,12 @@ export default function SkillsBar() {
               );
             })}
 
-            {openCat && (
+            {openTag && (
               <div className="absolute left-0 top-full z-20 mt-2 animate-fade-in rounded-lg border border-border/60 bg-bg-card/90 px-4 py-3 shadow-lg backdrop-blur-sm">
                 <div className="flex flex-wrap gap-2">
-                  {skillCategories
-                    .find((c) => c.translationKey === openCat)
-                    ?.skills.map((skill) => (
+                  {skills
+                    .filter((s) => s.tag === openTag)
+                    .map((skill) => (
                       <span
                         key={skill.name}
                         className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-bg/80 px-2.5 py-1 text-xs text-fg-muted backdrop-blur-sm transition-colors hover:border-accent/40 hover:text-fg"
