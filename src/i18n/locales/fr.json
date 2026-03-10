@@ -6,17 +6,20 @@
 
   "hero.greeting": "Bonjour, je suis",
   "hero.role": "Développeur Logiciel",
-  "hero.bio": "Je construis des applications web modernes avec du code propre et d'excellentes expériences utilisateur. Basé au Portugal, passionné par Java, React et tout ce qui se trouve entre les deux.",
+  "hero.bio": "Je construis des applications web modernes avec du code propre et d'excellentes expériences utilisateur. Passionné par Java, Javascript et tout ce qui se trouve entre les deux.",
   "hero.hireCta": "Engagez-moi",
   "hero.viewProjects": "Voir les Projets",
 
   "skills.title": "Compétences & Technologies",
-  "skills.description": "Technologies avec lesquelles je travaille au quotidien.",
+  "skills.description": "Avec quoi je travaille.",
   "skills.subtitle": "Développeur Logiciel · Portugal",
   "skills.hireMe": "Engagez-moi",
   "skills.cat.languages": "Langages",
   "skills.cat.frameworksTools": "Frameworks & Outils",
+  "skills.showMore": "Voir {count} de plus",
+  "skills.showLess": "Voir moins",
 
+  "projects.subtitle": "Portfolio",
   "projects.title": "Projets",
   "projects.description": "Une sélection de projets que j'ai construits.",
   "projects.liveDemo": "Démo",

@@ -182,13 +182,13 @@ export default function ContactSection() {
     "w-full rounded-lg border border-border/60 bg-bg/50 px-3.5 py-2.5 text-sm text-fg placeholder:text-fg-muted/40 transition-all duration-200 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent focus:shadow-[0_0_12px_rgba(99,102,241,0.15)]";
 
   return (
-    <section id="contact" className="relative px-6 py-24">
+    <section id="contact" className="relative flex min-h-screen items-center px-6 py-24">
       {showSending && <SendingAnimation />}
 
       {/* Ambient orb */}
       <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[400px] w-full max-w-[600px] rounded-full bg-accent/10 blur-[120px]" />
 
-      <div ref={ref} className="relative mx-auto max-w-6xl">
+      <div ref={ref} className="relative mx-auto w-full max-w-6xl">
         <div className={`mb-12 text-center transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="mb-3 text-3xl font-bold tracking-tight text-fg sm:text-4xl">
             {t("contact.title")}

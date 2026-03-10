@@ -35,6 +35,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ---- Skill cards ---- */
+#skills .group:hover {
+  border-color: var(--skill-border) !important;
+  box-shadow: 0 10px 15px -3px var(--skill-shadow), 0 4px 6px -4px var(--skill-shadow);
+}
+
 /* ---- Base ---- */
 
 html {
@@ -73,6 +79,12 @@ html, body {
 }
 
 /* ---- Animations ---- */
+
+@keyframes scroll-dot {
+  0% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.3; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(20px); }

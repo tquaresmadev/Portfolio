@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTranslation } from "@/i18n/useTranslation";
+import ScrollIndicator from "./ScrollIndicator";
 
 export default function HeroSection() {
   const { t } = useTranslation();
@@ -12,15 +13,22 @@ export default function HeroSection() {
 
   useEffect(() => {
     let i = 0;
-    const interval = setInterval(() => {
-      if (i <= fullName.length) {
-        setDisplayedName(fullName.slice(0, i));
-        i++;
-      } else {
-        clearInterval(interval);
+    let lastTime = 0;
+    let rafId: number;
+    const step = (time: number) => {
+      if (time - lastTime >= 80) {
+        lastTime = time;
+        if (i <= fullName.length) {
+          setDisplayedName(fullName.slice(0, i));
+          i++;
+        }
       }
-    }, 80);
-    return () => clearInterval(interval);
+      if (i <= fullName.length) {
+        rafId = requestAnimationFrame(step);
+      }
+    };
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   useEffect(() => {
@@ -112,7 +120,7 @@ export default function HeroSection() {
             </div>
             {/* Floating skill badges */}
             <div className="absolute -top-2 -right-4 rounded-lg border border-border/60 bg-bg-card/90 px-3 py-1.5 text-xs font-medium text-fg shadow-lg backdrop-blur-sm animate-float">
-              React
+              Node.js
             </div>
             <div className="absolute -bottom-2 -left-4 rounded-lg border border-border/60 bg-bg-card/90 px-3 py-1.5 text-xs font-medium text-fg shadow-lg backdrop-blur-sm animate-float-delayed">
               Java
@@ -123,6 +131,8 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
+
+      <ScrollIndicator targetId="projects" />
     </section>
   );
 }

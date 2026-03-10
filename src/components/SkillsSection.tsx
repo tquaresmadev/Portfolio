@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { skills, Skill } from "@/data/skills";
 import { useTranslation } from "@/i18n/useTranslation";
@@ -13,14 +13,37 @@ const tagColors: Record<string, string> = {
   AI: "#8b5cf6",
 };
 
+const VISIBLE_ROWS = 2;
+
 export default function SkillsSection() {
   const { t } = useTranslation();
   const { ref, inView } = useInView(0.1);
   const [lightbox, setLightbox] = useState<Skill["certification"] | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [cols, setCols] = useState(4);
+
+  const updateCols = useCallback(() => {
+    const w = window.innerWidth;
+    if (w >= 1024) setCols(4);
+    else if (w >= 640) setCols(3);
+    else if (w >= 400) setCols(2);
+    else setCols(1);
+  }, []);
+
+  useEffect(() => {
+    updateCols();
+    window.addEventListener("resize", updateCols);
+    return () => window.removeEventListener("resize", updateCols);
+  }, [updateCols]);
+
+  const initialCount = cols * VISIBLE_ROWS;
+  const visibleSkills = showAll ? skills : skills.slice(0, initialCount);
+  const hasMore = skills.length > initialCount;
 
   return (
-    <section id="skills" className="relative px-6 py-24">
-      <div ref={ref} className="mx-auto max-w-6xl">
+    <section id="skills" className="relative flex min-h-screen items-center px-6 py-24">
+      <div ref={ref} className="mx-auto w-full max-w-6xl">
         <div className={`mb-12 text-center transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="mb-3 text-3xl font-bold tracking-tight text-fg sm:text-4xl">
             {t("skills.title")}
@@ -29,10 +52,10 @@ export default function SkillsSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-3 min-[400px]:grid-cols-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-          {skills.map((skill, i) => (
+          {visibleSkills.map((skill, i) => (
             <div
               key={skill.name}
-              className={`group rounded-xl border border-border/60 bg-bg-card/50 p-4 backdrop-blur-sm transition-[border-color,background-color,box-shadow,transform] duration-300 hover:border-accent/40 hover:bg-bg-card/80 hover:shadow-lg hover:shadow-accent/5 hover:-translate-y-1 sm:p-5 ${
+              className={`group rounded-xl border border-border/60 bg-bg-card/50 p-4 backdrop-blur-sm transition-[border-color,background-color,box-shadow,transform] duration-300 hover:bg-bg-card/80 hover:-translate-y-1 sm:p-5 ${
                 inView ? "animate-fade-in-up" : "opacity-0"
               }`}
               style={{
@@ -40,6 +63,10 @@ export default function SkillsSection() {
                 animationFillMode: "both",
                 borderLeftColor: (tagColors[skill.tag] || "#888") + "60",
                 borderLeftWidth: "3px",
+                // @ts-expect-error -- CSS custom property for hover color
+                "--skill-color": tagColors[skill.tag] || "#888",
+                "--skill-shadow": (tagColors[skill.tag] || "#888") + "15",
+                "--skill-border": (tagColors[skill.tag] || "#888") + "60",
               }}
             >
               <div className="flex items-center justify-between gap-2">
@@ -102,6 +129,30 @@ export default function SkillsSection() {
             </div>
           ))}
         </div>
+
+        {hasMore && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setShowAll((v) => !v)}
+              className="inline-flex items-center gap-2 rounded-xl border border-border/60 px-5 py-2.5 text-sm font-medium text-fg-muted transition-all hover:border-accent/40 hover:text-fg"
+            >
+              {showAll ? t("skills.showLess") : t("skills.showMore", { count: skills.length - initialCount })}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={`transition-transform duration-300 ${showAll ? "rotate-180" : ""}`}
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Lightbox */}

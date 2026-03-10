@@ -19,7 +19,6 @@ export const projects: Project[] = [
     description:
       "Personal developer portfolio built with Next.js, React, and Tailwind CSS.",
     tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-    sourceUrl: "https://github.com/tquaresmadev/my-portfolio",
     category: "Web App",
     icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
     accentColor: "#6366f1",

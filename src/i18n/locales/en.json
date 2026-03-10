@@ -6,17 +6,20 @@
 
   "hero.greeting": "Hello, I'm",
   "hero.role": "Software Developer",
-  "hero.bio": "I build modern web applications with clean code and great user experiences. Based in Portugal, passionate about Java, React, and everything in between.",
+  "hero.bio": "I build modern web applications with clean code and great user experiences. Passionate about Java, Javascript, and everything in between.",
   "hero.hireCta": "Hire Me",
   "hero.viewProjects": "View Projects",
 
   "skills.title": "Skills & Technologies",
-  "skills.description": "Technologies I work with on a daily basis.",
+  "skills.description": "What I work with.",
   "skills.subtitle": "Software Developer · Portugal",
   "skills.hireMe": "Hire Me",
   "skills.cat.languages": "Languages",
   "skills.cat.frameworksTools": "Frameworks & Tools",
+  "skills.showMore": "Show {count} more",
+  "skills.showLess": "Show less",
 
+  "projects.subtitle": "Portfolio",
   "projects.title": "Projects",
   "projects.description": "A selection of projects I've built.",
   "projects.liveDemo": "Live Demo",
