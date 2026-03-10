@@ -117,7 +117,7 @@ export default function HeroSection() {
             <div className="absolute -bottom-2 -left-4 rounded-lg border border-border/60 bg-bg-card/90 px-3 py-1.5 text-xs font-medium text-fg shadow-lg backdrop-blur-sm animate-float-delayed">
               Java
             </div>
-            <div className="absolute top-1/2 -right-8 rounded-lg border border-border/60 bg-bg-card/90 px-3 py-1.5 text-xs font-medium text-fg shadow-lg backdrop-blur-sm animate-float" style={{ animationDelay: "1s" }}>
+            <div className="absolute top-1/2 -right-4 sm:-right-8 rounded-lg border border-border/60 bg-bg-card/90 px-3 py-1.5 text-xs font-medium text-fg shadow-lg backdrop-blur-sm animate-float" style={{ animationDelay: "1s" }}>
               Next.js
             </div>
           </div>

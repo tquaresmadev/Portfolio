@@ -13,12 +13,12 @@ export default function SkillsBar() {
   const tags = [...new Set(skills.map((s) => s.tag))];
 
   return (
-    <section className="relative z-20 overflow-visible">
+    <section className="relative z-20 overflow-x-hidden md:overflow-visible">
       <CodeBackground />
 
-      <div className="relative mx-auto flex max-w-5xl items-center gap-8 px-8 py-8">
+      <div className="relative mx-auto flex max-w-5xl items-center gap-4 px-4 py-6 sm:gap-8 sm:px-8 sm:py-8">
         {/* Profile image */}
-        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full ring-2 ring-accent/20 ring-offset-4 ring-offset-bg">
+        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-accent/20 ring-offset-2 ring-offset-bg sm:h-20 sm:w-20 sm:ring-offset-4">
           <Image
             src="/profile.jpg"
             alt="Tiago Quaresma"
@@ -29,15 +29,15 @@ export default function SkillsBar() {
         </div>
 
         {/* Name + skills */}
-        <div className="flex flex-1 flex-col gap-3">
+        <div className="flex min-w-0 flex-1 flex-col gap-2 sm:gap-3">
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-fg">
+            <h1 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
               Tiago Quaresma
             </h1>
-            <div className="flex items-center gap-2">
-              <p className="text-sm text-fg-muted">
-                {t("skills.subtitle")}
-              </p>
+            <p className="text-sm text-fg-muted">
+              {t("skills.subtitle")}
+            </p>
+            <div className="mt-1 flex items-center gap-2">
               <a
                 href="https://github.com/tquaresmadev"
                 target="_blank"
@@ -62,7 +62,7 @@ export default function SkillsBar() {
               </a>
               <Link
                 href="/hire"
-                className="group relative ml-2 inline-flex items-center gap-1.5 overflow-hidden rounded-full px-4 py-1 text-xs font-semibold tracking-wide text-[#1a1000] shadow-[0_0_16px_rgba(251,191,36,0.3)] transition-all duration-300 hover:shadow-[0_0_24px_rgba(251,191,36,0.5)] hover:scale-105"
+                className="group relative ml-1 inline-flex items-center gap-1.5 overflow-hidden rounded-full px-4 py-1 text-xs font-semibold tracking-wide text-[#1a1000] shadow-[0_0_16px_rgba(251,191,36,0.3)] transition-all duration-300 hover:shadow-[0_0_24px_rgba(251,191,36,0.5)] hover:scale-105"
                 style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b)" }}
               >
                 <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
@@ -71,7 +71,7 @@ export default function SkillsBar() {
             </div>
           </div>
 
-          <div className="relative flex flex-wrap items-center gap-x-3 gap-y-2">
+          <div className="relative hidden flex-wrap items-center gap-x-3 gap-y-2 md:flex">
             {tags.map((tag) => {
               const isOpen = openTag === tag;
               return (
@@ -95,7 +95,7 @@ export default function SkillsBar() {
             })}
 
             {openTag && (
-              <div className="absolute left-0 top-full z-20 mt-2 animate-fade-in rounded-lg border border-border/60 bg-bg-card/90 px-4 py-3 shadow-lg backdrop-blur-sm">
+              <div className="absolute left-0 right-0 top-full z-20 mt-2 animate-fade-in rounded-lg border border-border/60 bg-bg-card/90 px-4 py-3 shadow-lg backdrop-blur-sm sm:right-auto">
                 <div className="flex flex-wrap gap-2">
                   {skills
                     .filter((s) => s.tag === openTag)

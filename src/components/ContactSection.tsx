@@ -186,7 +186,7 @@ export default function ContactSection() {
       {showSending && <SendingAnimation />}
 
       {/* Ambient orb */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[400px] w-[600px] rounded-full bg-accent/10 blur-[120px]" />
+      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[400px] w-full max-w-[600px] rounded-full bg-accent/10 blur-[120px]" />
 
       <div ref={ref} className="relative mx-auto max-w-6xl">
         <div className={`mb-12 text-center transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
