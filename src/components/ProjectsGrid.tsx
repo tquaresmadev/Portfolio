@@ -58,8 +58,8 @@ export default function ProjectsGrid() {
                   </div>
                 )}
 
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-card/90 via-transparent to-transparent" />
+                {/* Gradient overlay — always dark to blend with dark thumbnails */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
                 {/* Hover overlay with buttons — only if project has links */}
                 {(project.liveUrl || project.sourceUrl) && (
