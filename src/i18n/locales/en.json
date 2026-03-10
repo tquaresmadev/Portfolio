@@ -32,8 +32,8 @@
   "project.my-portfolio.description": "Personal developer portfolio built with Next.js, React, and Tailwind CSS.",
   "project.my-portfolio.category": "Web App",
   "project.bananini.title": "Bananini",
-  "project.bananini.description": "Fun and interactive app with playful design and smooth animations.",
-  "project.bananini.category": "Web App",
+  "project.bananini.description": "Full-stack complex sticker album discord bot.",
+  "project.bananini.category": "Full-Stack",
 
   "contact.title": "Get in Touch",
   "contact.description": "Have a project in mind? Let's work together.",
