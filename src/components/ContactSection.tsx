@@ -1,15 +1,8 @@
 "use client";
 
-import { useActionState, useState, useEffect, useRef } from "react";
-import { sendContactEmail } from "@/app/actions";
+import { useState, useEffect, useRef, type FormEvent } from "react";
 import { useTranslation } from "@/i18n/useTranslation";
 import { useInView } from "@/hooks/useInView";
-
-type State = { success?: boolean; error?: string } | null;
-
-function formAction(_prev: State, formData: FormData) {
-  return sendContactEmail(formData);
-}
 
 /* ---------- Rocket / envelope sending animation ---------- */
 function SendingAnimation() {
@@ -154,28 +147,53 @@ function InlineSuccess({ onReset }: { onReset: () => void }) {
 export default function ContactSection() {
   const { t } = useTranslation();
   const { ref, inView } = useInView(0.1);
-  const [state, action, pending] = useActionState(formAction, null);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const [showSending, setShowSending] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const prevPending = useRef(false);
 
-  useEffect(() => {
-    if (pending && !prevPending.current) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- sync sending overlay with pending state
-      setShowSending(true);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setPending(true);
+    setShowSending(true);
+
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      subject: (form.elements.namedItem("subject") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+
+      await new Promise((r) => setTimeout(r, 1500));
+      setShowSending(false);
+
+      if (result.success) {
+        setShowSuccess(true);
+        form.reset();
+      } else {
+        setError(result.error || "Something went wrong.");
+      }
+    } catch {
+      setShowSending(false);
+      setError("Network error. Please try again.");
+    } finally {
+      setPending(false);
     }
-    if (!pending && prevPending.current) {
-      const timer = setTimeout(() => {
-        setShowSending(false);
-        if (state?.success) setShowSuccess(true);
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-    prevPending.current = pending;
-  }, [pending, state]);
+  };
 
   const handleReset = () => {
     setShowSuccess(false);
+    setError(null);
   };
 
   const inputClass =
@@ -252,10 +270,10 @@ export default function ContactSection() {
             {showSuccess ? (
               <InlineSuccess onReset={handleReset} />
             ) : (
-              <form action={action} className="rounded-2xl border border-border/60 bg-bg-card/50 p-6 backdrop-blur-sm">
-                {state?.error && (
+              <form onSubmit={handleSubmit} className="rounded-2xl border border-border/60 bg-bg-card/50 p-6 backdrop-blur-sm">
+                {error && (
                   <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400 animate-hire-shake">
-                    {state.error}
+                    {error}
                   </div>
                 )}
 
