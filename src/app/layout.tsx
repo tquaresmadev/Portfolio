@@ -16,6 +16,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Tiago Quaresma | Portfolio",
   description: "Software Developer Portfolio",
+  icons: {
+    icon: "/logo/logo.png",
+    apple: "/logo/logo.png",
+  },
   other: {
     "google": "notranslate",
   },
