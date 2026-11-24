@@ -1,13 +1,58 @@
 "use client";
 
-import { createContext, useState, useEffect, type ReactNode } from "react";
-import type { Locale } from "./types";
+import { createContext, useEffect, useSyncExternalStore, type ReactNode } from "react";
+import { LOCALES, type Locale } from "./types";
 import en from "./locales/en.json";
 import pt from "./locales/pt.json";
 import fr from "./locales/fr.json";
 import es from "./locales/es.json";
 
 const dictionaries: Record<Locale, Record<string, string>> = { en, pt, fr, es };
+
+const STORAGE_KEY = "locale";
+const listeners = new Set<() => void>();
+/** The visitor's choice for this page view; covers browsers where storage is blocked. */
+let chosen: Locale | null = null;
+
+function isLocale(value: string | null): value is Locale {
+  return LOCALES.some((l) => l.code === value);
+}
+
+function readLocale(): Locale {
+  if (chosen) return chosen;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (isLocale(saved)) return saved;
+  } catch {
+    // Storage blocked: fall back to English.
+  }
+  return "en";
+}
+
+function subscribe(listener: () => void) {
+  // Another tab switching language updates this one too.
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== STORAGE_KEY) return;
+    chosen = null;
+    listener();
+  };
+  listeners.add(listener);
+  window.addEventListener("storage", onStorage);
+  return () => {
+    listeners.delete(listener);
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
+function setLocale(locale: Locale) {
+  chosen = locale;
+  try {
+    localStorage.setItem(STORAGE_KEY, locale);
+  } catch {
+    // Storage blocked: the choice still applies to this visit.
+  }
+  listeners.forEach((listener) => listener());
+}
 
 export const LanguageContext = createContext<{
   locale: Locale;
@@ -20,21 +65,12 @@ export const LanguageContext = createContext<{
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("en");
+  // The server renders English; the saved language takes over during hydration.
+  const locale = useSyncExternalStore(subscribe, readLocale, () => "en" as Locale);
 
   useEffect(() => {
-    const saved = localStorage.getItem("locale") as Locale | null;
-    if (saved && dictionaries[saved]) {
-      setLocaleState(saved);
-      document.documentElement.lang = saved;
-    }
-  }, []);
-
-  const setLocale = (l: Locale) => {
-    setLocaleState(l);
-    localStorage.setItem("locale", l);
-    document.documentElement.lang = l;
-  };
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   return (
     <LanguageContext.Provider value={{ locale, setLocale, translations: dictionaries[locale] }}>

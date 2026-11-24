@@ -1,37 +1,56 @@
 export interface Project {
   slug: string;
   title: string;
-  description: string;
-  thumbnail?: string;
-  tags: string[];
+  /** Brand color: tints the card, its labels and the glow under the preview. */
+  color: string;
+  /** Preview in the browser frame: a video (.mp4/.webm) that loops muted, or an image. */
+  media: {
+    src: string;
+    /** A video's still, shown while it loads and when motion is reduced. */
+    poster?: string;
+    width: number;
+    height: number;
+  };
+  /** What the browser frame's address bar shows. */
+  host: string;
+  stack: string[];
+  /** How many `project.<slug>.h<n>` highlight strings the locale files define. */
+  highlights: number;
   liveUrl?: string;
   sourceUrl?: string;
-  category?: string;
-  icon: string;
-  accentColor: string;
 }
 
 export const projects: Project[] = [
   {
-    slug: "my-portfolio",
-    title: "My Portfolio",
-    thumbnail: "/projects/portfolio-app.gif",
-    description:
-      "Personal developer portfolio built with Next.js, React, and Tailwind CSS.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-    category: "Web App",
-    icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
-    accentColor: "#6366f1",
+    slug: "cv-juicer",
+    title: "CV Juicer",
+    color: "#f54900",
+    media: {
+      src: "/projects/cv-juicer-app.mp4",
+      poster: "/projects/cv-juicer-app.jpg",
+      width: 1280,
+      height: 720,
+    },
+    host: "cvjuicer.com",
+    stack: ["Next.js", "TypeScript", "PostgreSQL", "Stripe", "Docker", "Claude API"],
+    highlights: 3,
+    liveUrl: "https://cvjuicer.com",
   },
   {
     slug: "bananini",
     title: "Bananini",
-    thumbnail: "/projects/bananini-app.gif",
-    description:
-      "Full-stack complex sticker album discord bot.",
-    tags: ["Next.js", "Nest.js", "TypeScript", "Tailwind CSS", "Discord.js", "PostgreSQL"],
-    category: "Full-Stack",
-    icon: "M12 2a10 10 0 110 20 10 10 0 010-20zm0 4a1 1 0 00-1 1v5a1 1 0 002 0V7a1 1 0 00-1-1z",
-    accentColor: "#f59e0b",
+    color: "#f59e0b",
+    media: {
+      src: "/projects/bananini-app.mp4",
+      poster: "/projects/bananini-app.jpg",
+      width: 1280,
+      height: 720,
+    },
+    host: "bananini",
+    stack: ["Next.js", "Nest.js", "TypeScript", "Tailwind CSS", "Discord.js", "PostgreSQL"],
+    highlights: 3,
   },
 ];
+
+/** The project behind the hero's "Now building" tile. */
+export const featuredProject = projects[0];
