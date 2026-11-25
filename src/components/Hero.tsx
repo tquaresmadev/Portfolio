@@ -7,10 +7,10 @@ import { coreStack } from "@/data/skills";
 import { featuredProject } from "@/data/projects";
 import { useTranslation } from "@/i18n/useTranslation";
 import LocalTime from "./LocalTime";
+import { keepHyphenatedWords } from "./text";
 import { ArrowDown, ArrowDownRight, ArrowRight, Mail } from "./icons";
 import { container } from "./ui";
 
-/** Position in the hero's load-in stagger (see `.rise` in globals.css). */
 const order = (i: number) => ({ "--i": i }) as CSSProperties;
 
 export default function Hero() {
@@ -20,7 +20,6 @@ export default function Hero() {
   return (
     <section aria-labelledby="hero-title" className={`${container} pt-4`}>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-12">
-        {/* Intro */}
         <div
           className="tile rise flex flex-col justify-between gap-10 p-6 sm:col-span-2 sm:p-10 lg:col-span-8 lg:p-12"
           style={order(0)}
@@ -36,7 +35,7 @@ export default function Hero() {
               id="hero-title"
               className="mt-7 font-display text-[clamp(2.375rem,1.4rem+3vw,3.875rem)] leading-[1.02] font-bold tracking-[-0.03em] text-balance"
             >
-              {t("hero.title")} <span className="text-muted">{t("hero.subtitle")}</span>
+              {t("hero.title")} <span className="block text-muted">{keepHyphenatedWords(t("hero.subtitle"))}</span>
             </h1>
           </div>
           <div>
@@ -60,7 +59,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Photo and location */}
         <div className="flex flex-col gap-4 lg:col-span-4">
           <figure className="rise relative aspect-square overflow-hidden rounded-[28px] bg-photo" style={order(1)}>
             <Image
@@ -90,7 +88,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Now building */}
         <a
           href={`#${featured.slug}`}
           className="group project-surface rise flex flex-col gap-5 overflow-hidden rounded-[28px] px-6 pt-6 lg:col-span-6"
@@ -120,7 +117,6 @@ export default function Hero() {
           />
         </a>
 
-        {/* Core stack */}
         <div className="tile rise flex flex-col justify-between gap-6 p-6 lg:col-span-3" style={order(4)}>
           <div>
             <p className="eyebrow text-faint">{t("hero.stack")}</p>
@@ -138,7 +134,6 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Response time */}
         <div className="tile rise flex flex-col justify-between gap-6 p-6 lg:col-span-3" style={order(5)}>
           <div>
             <p className="eyebrow text-faint">{t("hero.response")}</p>

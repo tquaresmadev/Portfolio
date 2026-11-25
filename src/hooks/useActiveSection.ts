@@ -2,11 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-/**
- * The id of the section crossing a thin band just above the middle of the viewport,
- * or null when none does (for example, while the hero is in view).
- * Pass a stable array (a module-level constant), or the observer restarts every render.
- */
 export function useActiveSection(ids: readonly string[]) {
   const [active, setActive] = useState<string | null>(null);
 

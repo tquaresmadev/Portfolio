@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { site } from "@/data/site";
 import { useTranslation } from "@/i18n/useTranslation";
 import CopyEmailButton from "./CopyEmailButton";
+import { keepHyphenatedWords } from "./text";
 import { ArrowUpRight, Check, Loader, Send } from "./icons";
 import { container, section } from "./ui";
 
@@ -49,7 +50,7 @@ export default function Contact() {
               id="contact-title"
               className="font-display text-[clamp(2.5rem,1.9rem+2.4vw,4rem)] leading-none font-bold tracking-[-0.035em] text-balance"
             >
-              {t("contact.title")}
+              {keepHyphenatedWords(t("contact.title"))}
             </h2>
             <p className="mt-4 max-w-[36ch] text-lg text-white/90">{t("contact.description")}</p>
           </div>
@@ -141,7 +142,6 @@ export default function Contact() {
               />
             </div>
 
-            {/* Honeypot: hidden from people, so only bots fill it in. */}
             <div aria-hidden="true" className="absolute -left-[9999px] size-px overflow-hidden">
               <label htmlFor="contact-company">Company</label>
               <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />

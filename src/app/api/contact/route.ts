@@ -5,7 +5,6 @@ import { site } from "@/data/site";
 const MAX_LENGTH = { name: 100, email: 200, subject: 150, message: 5000 } as const;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Header values (name, subject) must stay on one line. */
 const oneLine = (value: string) => value.replace(/[\r\n]+/g, " ").trim();
 
 export async function POST(req: Request) {
@@ -22,7 +21,6 @@ export async function POST(req: Request) {
   const data = body as Record<string, unknown>;
   const text = (key: string) => (typeof data[key] === "string" ? (data[key] as string).trim() : "");
 
-  // Honeypot: the "company" field is hidden from people, so anything in it comes from a bot.
   if (text("company")) {
     return NextResponse.json({ success: true });
   }

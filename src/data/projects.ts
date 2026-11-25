@@ -1,20 +1,15 @@
 export interface Project {
   slug: string;
   title: string;
-  /** Brand color: tints the card, its labels and the glow under the preview. */
   color: string;
-  /** Preview in the browser frame: a video (.mp4/.webm) that loops muted, or an image. */
   media: {
     src: string;
-    /** A video's still, shown while it loads and when motion is reduced. */
     poster?: string;
     width: number;
     height: number;
   };
-  /** What the browser frame's address bar shows. */
   host: string;
   stack: string[];
-  /** How many `project.<slug>.h<n>` highlight strings the locale files define. */
   highlights: number;
   liveUrl?: string;
   sourceUrl?: string;
@@ -52,5 +47,4 @@ export const projects: Project[] = [
   },
 ];
 
-/** The project behind the hero's "Now building" tile. */
 export const featuredProject = projects[0];

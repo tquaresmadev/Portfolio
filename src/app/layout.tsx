@@ -16,8 +16,6 @@ const bricolage = Bricolage_Grotesque({
   axes: ["opsz"],
 });
 
-// Icons (favicon.ico, icon.png, apple-icon.png) and the link-preview picture (opengraph-image.tsx)
-// live as files in this folder; Next.js adds their tags on its own.
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: seoTitle,
@@ -52,7 +50,6 @@ export const viewport: Viewport = {
   ],
 };
 
-// Runs before first paint, so a saved (or system) dark theme never flashes light.
 const themeScript = `try{var s=localStorage.getItem("theme");if(s==="dark"||(!s&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}`;
 
 export default function RootLayout({

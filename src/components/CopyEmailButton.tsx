@@ -19,7 +19,6 @@ export default function CopyEmailButton({ email }: { email: string }) {
       await navigator.clipboard.writeText(email);
       setCopied(true);
     } catch {
-      // No clipboard access (old browser or insecure context): open the mail app instead.
       window.location.href = `mailto:${email}`;
     }
   }

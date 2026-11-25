@@ -1,17 +1,12 @@
-/* eslint-disable @next/next/no-img-element -- next/og draws plain <img> elements */
+/* eslint-disable @next/next/no-img-element */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-// The picture shown when a link to the site is shared (Discord, LinkedIn, WhatsApp, Slack…):
-// the hero's tiles in miniature — the headline, the photo and the "Now building" card. Made at build time.
-
-export const alt =
-  "Tiago Quaresma, full-stack developer in Portugal: I build web products, from the server to the checkout button.";
+export const alt = "Tiago Quaresma, full-stack developer based in Portugal";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Literal paths, so the build only takes these files along (a computed path takes the whole project)
 const dataUrl = (file: Buffer, type: string) => `data:${type};base64,${file.toString("base64")}`;
 
 const ink = "#121212";
@@ -30,7 +25,6 @@ export default async function Image() {
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", padding: 40, background: "#efefec", fontFamily: "Inter" }}>
-        {/* Intro tile */}
         <div
           style={{
             width: 700,
@@ -83,7 +77,7 @@ export default async function Image() {
               }}
             >
               <span style={{ color: ink }}>Hi, I&apos;m Tiago.</span>
-              <span style={{ color: muted }}>I build web products, from the server to the checkout button.</span>
+              <span style={{ color: muted }}>Full-stack developer based in Portugal.</span>
             </div>
           </div>
 
@@ -106,7 +100,6 @@ export default async function Image() {
           </div>
         </div>
 
-        {/* Photo and "Now building" */}
         <div style={{ width: 404, height: "100%", display: "flex", flexDirection: "column", marginLeft: 16 }}>
           <div
             style={{
@@ -151,9 +144,8 @@ export default async function Image() {
               border: "1px solid #ffd9c2",
             }}
           >
-            {/* flexShrink 0 everywhere: the screenshot runs off the bottom (and is clipped) instead of squashing the text */}
             <div style={{ display: "flex", flexShrink: 0, fontSize: 15, fontWeight: 600, letterSpacing: 0.6, color: "#c23a00" }}>
-              NOW BUILDING
+              CURRENT PROJECT
             </div>
             <div
               style={{

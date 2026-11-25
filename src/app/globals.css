@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* Dark mode follows the `.dark` class, which the inline script in layout.tsx sets before first paint. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -21,7 +20,6 @@
   --caption-bg: rgb(255 255 255 / 0.88);
   --caption-ink: #121212;
 
-  /* How each project's color (set per card as --project) mixes into surfaces, borders, text and glow. */
   --tint: 9%;
   --tint-border: 24%;
   --tint-base: var(--tile);
@@ -79,8 +77,6 @@
   --font-display: var(--font-bricolage), var(--font-inter), ui-sans-serif, sans-serif;
 }
 
-/* ---- Building blocks ---- */
-
 @utility tile {
   border: 1px solid var(--line);
   border-radius: 28px;
@@ -111,8 +107,6 @@
   box-shadow: 0 28px 60px -24px color-mix(in oklab, var(--project) var(--glow), transparent);
 }
 
-/* ---- Base ---- */
-
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -135,7 +129,6 @@
     outline-offset: 2px;
   }
 
-  /* On the indigo contact card the accent outline would disappear. */
   .on-brand :focus-visible {
     outline-color: #fff;
   }
@@ -152,8 +145,6 @@
   }
 }
 
-/* ---- Motion ---- */
-
 @keyframes rise {
   from {
     opacity: 0;
@@ -166,13 +157,11 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Hero tiles fade up on load, staggered by the --i index each one sets. */
   .rise {
     animation: rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
     animation-delay: calc(var(--i, 0) * 70ms);
   }
 
-  /* Later blocks fade up as they scroll into view, where the browser supports it. */
   @supports (animation-timeline: view()) {
     .reveal {
       animation: rise linear both;

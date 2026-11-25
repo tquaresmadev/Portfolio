@@ -11,7 +11,6 @@ const dictionaries: Record<Locale, Record<string, string>> = { en, pt, fr, es };
 
 const STORAGE_KEY = "locale";
 const listeners = new Set<() => void>();
-/** The visitor's choice for this page view; covers browsers where storage is blocked. */
 let chosen: Locale | null = null;
 
 function isLocale(value: string | null): value is Locale {
@@ -23,14 +22,11 @@ function readLocale(): Locale {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (isLocale(saved)) return saved;
-  } catch {
-    // Storage blocked: fall back to English.
-  }
+  } catch {}
   return "en";
 }
 
 function subscribe(listener: () => void) {
-  // Another tab switching language updates this one too.
   const onStorage = (event: StorageEvent) => {
     if (event.key !== STORAGE_KEY) return;
     chosen = null;
@@ -48,9 +44,7 @@ function setLocale(locale: Locale) {
   chosen = locale;
   try {
     localStorage.setItem(STORAGE_KEY, locale);
-  } catch {
-    // Storage blocked: the choice still applies to this visit.
-  }
+  } catch {}
   listeners.forEach((listener) => listener());
 }
 
@@ -65,7 +59,6 @@ export const LanguageContext = createContext<{
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // The server renders English; the saved language takes over during hydration.
   const locale = useSyncExternalStore(subscribe, readLocale, () => "en" as Locale);
 
   useEffect(() => {

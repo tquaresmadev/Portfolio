@@ -2,7 +2,6 @@ import type { SVGProps } from "react";
 
 type IconProps = SVGProps<SVGSVGElement>;
 
-/** 24×24 stroke icons that take the text color. Decorative: label the control, not the icon. */
 function Icon({ children, ...props }: IconProps) {
   return (
     <svg
@@ -25,6 +24,13 @@ export const ArrowDown = (props: IconProps) => (
   <Icon {...props}>
     <path d="M12 5v14" />
     <path d="m19 12-7 7-7-7" />
+  </Icon>
+);
+
+export const ArrowLeft = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M19 12H5" />
+    <path d="m12 19-7-7 7-7" />
   </Icon>
 );
 

@@ -3,6 +3,7 @@
 import { certification, skillGroups } from "@/data/skills";
 import { useTranslation } from "@/i18n/useTranslation";
 import SectionHeading from "./SectionHeading";
+import { keepHyphenatedWords } from "./text";
 import { ArrowUpRight, Award } from "./icons";
 import { container, section } from "./ui";
 
@@ -16,7 +17,7 @@ export default function About() {
       <div className="grid gap-4 lg:grid-cols-12">
         <div className="tile reveal p-6 sm:p-9 lg:col-span-7 lg:p-11">
           <p className="max-w-[28ch] font-display text-[clamp(1.5rem,1.2rem+1.2vw,2rem)] leading-[1.2] font-semibold tracking-[-0.02em] text-balance">
-            {t("about.lead")}
+            {keepHyphenatedWords(t("about.lead"))}
           </p>
           <p className="mt-5 max-w-[56ch] text-[17px] leading-relaxed text-muted">{t("about.body")}</p>
         </div>

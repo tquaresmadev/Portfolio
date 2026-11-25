@@ -7,7 +7,6 @@ import { Moon, Sun } from "./icons";
 
 export default function ThemeToggle() {
   const { t } = useTranslation();
-  // null while server-rendering; the icons switch with CSS, so nothing flashes meanwhile.
   const theme = useSyncExternalStore(subscribeTheme, getTheme, () => null);
 
   return (

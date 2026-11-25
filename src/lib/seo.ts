@@ -1,11 +1,6 @@
 import { site } from "@/data/site";
 import { certification, skillGroups } from "@/data/skills";
 
-/**
- * The site's public address, used for canonical links, link previews, the sitemap and structured data.
- * NEXT_PUBLIC_SITE_URL wins when set (a custom domain); on Vercel the project's production domain is
- * used automatically; local builds fall back to localhost.
- */
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
@@ -13,13 +8,12 @@ export const siteUrl = (
     : "http://localhost:3000")
 ).replace(/\/+$/, "");
 
-// Search results and link previews show these. The page itself renders English first, so they're in English.
 export const seoTitle = "Full-Stack Developer in Portugal · Tiago Quaresma";
 
 export const seoDescription = [
-  "Full-stack developer in Portugal building web products end to end with Java, Spring, TypeScript and React.",
-  "Creator of CV Juicer.",
-  site.available ? "Available for new projects." : "",
+  "I'm Tiago, a full-stack developer based in Portugal.",
+  "I mostly work with Java, Spring, React and TypeScript, and I built CV Juicer.",
+  site.available ? "Open to new projects." : "",
 ]
   .filter(Boolean)
   .join(" ");
@@ -39,7 +33,6 @@ export const seoKeywords = [
   "CV Juicer",
 ];
 
-/** schema.org data that tells search engines who the page is about (rendered as JSON-LD in page.tsx). */
 export function structuredData() {
   const person = `${siteUrl}/#person`;
   return {

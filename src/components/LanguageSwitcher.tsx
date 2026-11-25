@@ -5,7 +5,6 @@ import { useTranslation } from "@/i18n/useTranslation";
 import { LOCALES } from "@/i18n/types";
 import { Check, ChevronDown } from "./icons";
 
-/** Compact dropdown for the header. */
 export function LanguageMenu() {
   const { t, locale, setLocale } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -73,7 +72,6 @@ export function LanguageMenu() {
   );
 }
 
-/** Segmented control for the footer. */
 export function LanguagePills() {
   const { t, locale, setLocale } = useTranslation();
 

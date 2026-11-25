@@ -4,6 +4,7 @@ import { useTranslation } from "@/i18n/useTranslation";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import ThemeToggle from "./ThemeToggle";
 import { LanguageMenu } from "./LanguageSwitcher";
+import Logo from "./Logo";
 import { Folder, Mail, User } from "./icons";
 import { container } from "./ui";
 
@@ -30,12 +31,7 @@ export default function Header() {
 
       <header className={`${container} sticky top-3 z-50 mt-3`}>
         <div className="flex items-center justify-between gap-1 rounded-[28px] border border-line bg-tile/80 py-1.5 pr-1.5 pl-3 shadow-[0_12px_32px_-20px_rgb(0_0_0/0.35)] backdrop-blur-md sm:gap-2 sm:pl-4">
-          <a href="#top" aria-label={t("nav.home")} className="inline-flex min-h-11 items-center">
-            <span className="font-display text-[22px] leading-none font-extrabold tracking-[-0.04em]">
-              TQ
-              <span aria-hidden="true" className="ml-[0.08em] inline-block size-[0.3em] rounded-[2px] bg-accent" />
-            </span>
-          </a>
+          <Logo href="#top" label={t("nav.home")} />
 
           <nav aria-label={t("nav.main")}>
             <ul className="flex items-center gap-0.5">

@@ -28,7 +28,6 @@ function getSnapshot() {
   return snapshot;
 }
 
-/** The current time where Tiago is. Renders a placeholder on the server, then the real time. */
 export default function LocalTime({ className }: { className?: string }) {
   const time = useSyncExternalStore(subscribe, getSnapshot, () => null);
   return <span className={className}>{time ?? "--:--"}</span>;

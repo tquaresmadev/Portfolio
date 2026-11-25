@@ -11,7 +11,6 @@ export default function Home() {
     <>
       <script
         type="application/ld+json"
-        // "<" is escaped so the data can never close the script tag early.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData()).replace(/</g, "\\u003c") }}
       />
       <Header />

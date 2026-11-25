@@ -8,10 +8,6 @@ import { Pause, Play } from "./icons";
 
 const isVideo = (src: string) => /\.(mp4|webm)$/i.test(src);
 
-/**
- * A project's preview. Videos loop muted like a GIF, but start only when the visitor
- * hasn't asked for reduced motion, and always have a pause button.
- */
 export default function ProjectMedia({ media, alt }: { media: Project["media"]; alt: string }) {
   const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -20,7 +16,6 @@ export default function ProjectMedia({ media, alt }: { media: Project["media"]; 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    // Autoplay needs `muted`, which React doesn't reliably set before hydration.
     video.muted = true;
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       video.play().catch(() => {});

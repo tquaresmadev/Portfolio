@@ -1,7 +1,3 @@
-/**
- * Theme state lives on <html> as the `.dark` class. The inline script in layout.tsx sets it
- * before first paint; this module reads and changes it afterwards.
- */
 export type Theme = "light" | "dark";
 
 const STORAGE_KEY = "theme";
@@ -16,17 +12,13 @@ function apply(theme: Theme) {
   listeners.forEach((listener) => listener());
 }
 
-/** Sets the theme and remembers it, so it wins over the system setting from now on. */
 export function setTheme(theme: Theme) {
   apply(theme);
   try {
     localStorage.setItem(STORAGE_KEY, theme);
-  } catch {
-    // Storage blocked: the choice still applies to this visit.
-  }
+  } catch {}
 }
 
-/** For useSyncExternalStore. Also follows the system setting while the visitor hasn't picked a theme. */
 export function subscribeTheme(listener: () => void) {
   listeners.add(listener);
   const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -34,9 +26,7 @@ export function subscribeTheme(listener: () => void) {
     let saved: string | null = null;
     try {
       saved = localStorage.getItem(STORAGE_KEY);
-    } catch {
-      // Storage blocked: treat as no saved choice.
-    }
+    } catch {}
     if (!saved) apply(media.matches ? "dark" : "light");
   };
   media.addEventListener("change", onSystemChange);
